@@ -10,7 +10,7 @@ namespace fs = std::experimental::filesystem::v1;
 #include "output.h"
 #include "arguments.h"
 
-
+//Represents a single configuration file, and the relation between its two locations
 class Element{
 private:
     fs::path systemPath;
@@ -85,6 +85,7 @@ public:
     }
 };
 
+//Represents a group of elements, and is little more than a link between those and a Selection
 class Group{
 private:
     std::vector<Element> elements;
@@ -121,6 +122,7 @@ public:
     }
 };
 
+//Represents everything a user want us to perform an action on
 class Selection{
 private:
     std::vector<Group> groups;

@@ -5,19 +5,20 @@
 
 #include "output.h"
 
-///////////////////////////////////////
-//Arguments
+//Defines the options that decide what the purpose of the program execution is
 enum class ProgramMode{
     List,
     Save,
     Load,
 };
 
+//Defines how the search for relevan groups should be
 enum class SelectionMode{
     Groups,
     All
 };
 
+//Container for all the things that can change how the execution should be.
 class Arguments{
 public:
     ProgramMode programMode;
@@ -28,6 +29,7 @@ public:
     Arguments(int argc, char* argv[]){
         selectionMode = SelectionMode::All;
         configPath = "locations.toml";
+
         if (argc <= 1){
             printUsageAndExit();
         }

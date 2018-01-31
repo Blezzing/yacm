@@ -3,6 +3,8 @@ Yet Another Configuration Manager
 
 As i was frustrated manually managing configuration files located multiple places on my systems, i wanted to make a little script to make this easier. It evolved into to this slightly overblown solution.
 
+As there exist other tools to do similar task i named this one YACM, as my naming skills are pretty bad.
+
 # Setup
 Currently the only way to get `yacm` is by compiling it yourself. I have tried to make this simple, and please leave issues if you run into trouble.
 
@@ -114,3 +116,6 @@ Will make a copy of **every single element** described the toml file, from their
 
 ## Wont-get features
 * Any kind of remote hosting. Use GitHub or something.
+
+# Thank you
+Thank you to Skystrife for making the toml library [cpptoml](https://github.com/skystrife/cpptoml). It made this project much easier to start.

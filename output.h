@@ -3,8 +3,7 @@
 #include <iostream>
 #include <string>
 
-///////////////////////////////////////
-//Output
+//Used whenever the user input was malformed
 void printUsageAndExit(){
     std::cout << 
     "Syntax: " << std::endl << 
@@ -17,19 +16,23 @@ void printUsageAndExit(){
     exit(1);
 }
 
+//Used whenever an unrecoverable error occured
 void printErrorAndExit(const char* description){
     std::cerr << "ERROR: " << description << std::endl;
     exit(1);
 }
 
+//Used by list
 void printGroupName(const std::string& groupName){
     std::cout << "==== " << groupName << std::endl;
 }
 
+//Used by list
 void printElementName(const std::string& elementName){
     std::cout << "  -- " << elementName << std::endl;
 }
 
+//Used whenever a yes/no choise have to be made
 bool booleanPromt(const std::string& question){
     char response;
     while(true){
