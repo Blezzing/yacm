@@ -9,6 +9,7 @@ namespace fs = std::experimental::filesystem::v1;
 #include "include/cpptoml.h"
 #include "output.h"
 #include "arguments.h"
+#include "helpers.h"
 
 //Represents a single configuration file, and the relation between its two locations
 class Element{
@@ -25,14 +26,38 @@ public:
         auto systemString = elementArray.get_array_of<std::string>()->at(0);
         auto backupString = elementArray.get_array_of<std::string>()->at(1);
 
-        char const* home = getenv("HOME");
-        if (home or ((home = getenv("USERPROFILE")))) {
-            if(systemString[0] == '~') systemString.replace(0, 1, home);
-            if(backupString[0] == '~') backupString.replace(0, 1, home);
-        }
+        unfoldHomePath(systemString);
+        unfoldHomePath(backupString);
 
         systemPath = fs::path(systemString);
         backupPath = fs::path(backupString);
+    }
+
+    bool isFilesIdentical() const{
+        std::ifstream lFile(systemPath.c_str(), std::ifstream::in | std::ifstream::binary);
+        std::ifstream rFile(backupPath.c_str(), std::ifstream::in | std::ifstream::binary);
+
+        //If an open failed, then it probably doesn't even exist
+        if(!lFile.is_open() || !rFile.is_open())
+        {
+            return false;
+        }
+
+        const int BUFFER_SIZE = 1024;
+        char lBuffer[BUFFER_SIZE];
+        char rBuffer[BUFFER_SIZE];
+
+        do {
+            lFile.read(lBuffer, BUFFER_SIZE);
+            rFile.read(rBuffer, BUFFER_SIZE);
+
+            if (std::memcmp(lBuffer, rBuffer, BUFFER_SIZE) != 0)
+            {
+                return false;
+            }
+        } while (lFile.good() || rFile.good());
+
+        return true;
     }
 
     void list() const{
@@ -48,6 +73,11 @@ public:
         }
 
         if(fs::exists(backupPath)){
+            if(isFilesIdentical()){
+                std::cout << "Skipped " << name << " as the version currently in backup is identical!" << std::endl;
+                return;
+            }
+
             auto question = "Want to overwrite existing [" + backupPath.string() + "]?";
             if (!booleanPromt(question)){
                 return;
@@ -70,6 +100,11 @@ public:
         }
 
         if(fs::exists(backupPath)){
+            if(isFilesIdentical()){
+                std::cout << "Skipped " << name << " as the version currently in system is identical!" << std::endl;
+                return;
+            }
+
             auto question = "Want to overwrite existing [" + systemPath.string() + "]?";
             if (!booleanPromt(question)){
                 return;
@@ -81,8 +116,9 @@ public:
         fs::copy(backupPath, systemPath, options);
 
         std::cout << "Copied " << name << " to system" << std::endl;
-
     }
+
+    
 };
 
 //Represents a group of elements, and is little more than a link between those and a Selection
