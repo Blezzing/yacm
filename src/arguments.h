@@ -1,9 +1,13 @@
 #pragma once
 
+#include <iostream>
 #include <string>
 #include <vector>
+#include <experimental/filesystem>
+namespace fs = std::experimental::filesystem::v1;
 
 #include "output.h"
+#include "helpers.h"
 
 //Defines the options that decide what the purpose of the program execution is
 enum class ProgramMode{
@@ -20,16 +24,36 @@ enum class SelectionMode{
 };
 
 //Container for all the things that can change how the execution should be.
-class Arguments{
-public:
+struct Arguments{
     ProgramMode programMode;
     SelectionMode selectionMode;
     std::vector<std::string> keys;
+
     std::string configPath;
+    std::string backupPath;
+    std::string locationsFile;
 
     Arguments(int argc, char* argv[]){
         selectionMode = SelectionMode::All;
-        configPath = "locations.toml";
+
+        configPath = unfoldHomePath("~/.config/yacm/config");
+        auto tomlName = "locations.toml";
+
+        //determine if current directory is a valid backup
+        if(fs::exists(tomlName) && fs::is_regular_file(tomlName)){
+            backupPath = fs::current_path();
+        }
+        //determine if (the maybe) mentioned path in config file is valid
+        else if(fs::exists(configPath)){ //TODO: make this handle if config file is malformed
+            std::ifstream config(configPath);
+            config >> backupPath;
+        }
+        //give up
+        else{
+            printErrorAndExit("Need to have a directory with a locations.toml, either as working directory, or mentioned in the config file to work.");
+        }
+
+        locationsFile = backupPath + "/" + tomlName;
 
         if (argc <= 1){
             printUsageAndExit();

@@ -15,11 +15,11 @@ private:
 public:
     std::string name;
 
-    Group(const std::string& groupName, const cpptoml::table& groupContentToml){
+    Group(const Arguments& args, const std::string& groupName, const cpptoml::table& groupContentToml){
         name = groupName;
         
         for (const auto& elementToml : groupContentToml){
-            elements.emplace_back(elementToml.first, *(elementToml.second->as_array()));
+            elements.emplace_back(args, elementToml.first, *(elementToml.second->as_array()));
         }
     }
 

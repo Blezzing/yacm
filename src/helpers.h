@@ -7,25 +7,6 @@ namespace fs = std::experimental::filesystem::v1;
 
 #include "output.h"
 
-//Use the cpptoml library to parse the toml file if it exist.
-std::shared_ptr<cpptoml::table> parseToml(const Arguments& args){
-    //Check if file exist in current directory
-    if(!fs::exists(args.configPath)){
-        printErrorAndExit("No locations.toml found in your current directory");
-    }
-
-    std::shared_ptr<cpptoml::table> ptr;
-
-    try{
-        ptr = cpptoml::parse_file(args.configPath);
-    }
-    catch(cpptoml::parse_exception e){
-        printErrorAndExit(e.what());
-    }
-
-    return ptr;
-}
-
 //Replace the first character of a string with the home path, if it is a '~'
 std::string unfoldHomePath(const std::string& str){
     std::string ret(str);

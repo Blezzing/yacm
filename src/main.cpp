@@ -9,6 +9,8 @@
 int main(int argc, char* argv[]){
     Arguments args(argc, argv);
 
+    std::cout << "Using locations file: " << args.locationsFile << std::endl << std::endl;
+
     switch(args.programMode){
         case ProgramMode::List: {
             Selection selection(args); 

@@ -153,9 +153,9 @@ private:
     }
 
 public:
-    Element(const std::string& elementName, const cpptoml::array& elementArray)
+    Element(const Arguments& args, const std::string& elementName, const cpptoml::array& elementArray)
         : systemPath(unfoldHomePath(elementArray.get_array_of<std::string>()->at(0)))
-        , backupPath(unfoldHomePath(elementArray.get_array_of<std::string>()->at(1)))
+        , backupPath(unfoldHomePath(args.backupPath + "/" + elementArray.get_array_of<std::string>()->at(1)))
         , name(elementName){
 
         //set kind
