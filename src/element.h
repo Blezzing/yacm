@@ -26,11 +26,11 @@ private:
 
         if(fs::exists(backupPath)){
             if(isFilesIdentical(systemPath, backupPath)){
-                std::cout << "Skipped " << name << " as the version currently in backup is identical!" << std::endl;
+                std::cout << "Skipped [" << name << "]; current backup is identical." << std::endl;
                 return;
             }
 
-            auto question = "Want to overwrite existing [" + backupPath.string() + "]?";
+            auto question = "About [" + name + "]: Want to overwrite existing file [" + backupPath.string() + "]?";
             if (!booleanPromt(question)){
                 return;
             }
@@ -40,7 +40,7 @@ private:
         auto options = fs::copy_options::overwrite_existing; 
         fs::copy(systemPath, backupPath, options);
 
-        std::cout << "Copied " << name << " to backup" << std::endl;
+        std::cout << "Copied [" << name << "] to backup." << std::endl;
     }
 
     void saveAsDirectory() const{
@@ -68,11 +68,11 @@ private:
 
             if(isInBackupDirectory){
                 if(isFilesIdentical(pathInSystem, pathInBackup)){
-                    std::cout << "Skipped " << name << " - " << shortedFilesInSystem[fileIndex] << " as the version currently in backup is identical!" << std::endl;
+                    std::cout << "Skipped [" << name << "] content [" << shortedFilesInSystem[fileIndex] << "]; current backup is identical." << std::endl;
                     continue;
                 }
 
-                auto question = "Want to overwrite existing [" + pathInBackup + "]?";
+                auto question = "About [" + name + "]: Want to overwrite existing [" + pathInBackup + "]?";
                 if (!booleanPromt(question)){
                     continue;
                 }
@@ -88,7 +88,7 @@ private:
             auto options = fs::copy_options::overwrite_existing; 
             fs::copy(pathInSystem, pathInBackup, options);
 
-            std::cout << "Copied " << name << " - " << shortedFilesInSystem[fileIndex] << " to backup" << std::endl;
+            std::cout << "Copied [" << name << "] content [" << shortedFilesInSystem[fileIndex] << "] to backup." << std::endl;
         }
     }
 
@@ -102,11 +102,11 @@ private:
 
         if(fs::exists(backupPath)){
             if(isFilesIdentical(systemPath, backupPath)){
-                std::cout << "Skipped " << name << " as the version currently in system is identical!" << std::endl;
+                std::cout << "Skipped [" << name << "]; current system is identical." << std::endl;
                 return;
             }
 
-            auto question = "Want to overwrite existing [" + systemPath.string() + "]?";
+            auto question = "About [" + name + "]: Want to overwrite existing [" + systemPath.string() + "]?";
             if (!booleanPromt(question)){
                 return;
             }
@@ -116,7 +116,7 @@ private:
         auto options = fs::copy_options::overwrite_existing; 
         fs::copy(backupPath, systemPath, options);
 
-        std::cout << "Copied " << name << " to system" << std::endl;
+        std::cout << "Copied [" << name << "] to system." << std::endl;
     }
 
     void loadAsDirectory() const{
@@ -144,11 +144,11 @@ private:
 
             if(isInSystemDirectory){
                 if(isFilesIdentical(pathInSystem, pathInBackup)){
-                    std::cout << "Skipped " << name << " - " << shortedFilesInBackup[fileIndex] << " as the version currently in system is identical!" << std::endl;
+                    std::cout << "Skipped [" << name << "] content [" << shortedFilesInBackup[fileIndex] << "]; current system is identical." << std::endl;
                     continue;
                 }
 
-                auto question = "Want to overwrite existing [" + pathInSystem + "]?";
+                auto question = "About [" + name + "]: Want to overwrite existing [" + pathInSystem + "]?";
                 if (!booleanPromt(question)){
                     continue;
                 }
@@ -164,7 +164,7 @@ private:
             auto options = fs::copy_options::overwrite_existing; 
             fs::copy(pathInBackup, pathInSystem, options);
 
-            std::cout << "Copied " << name << " - " << shortedFilesInBackup[fileIndex] << " to system" << std::endl;
+            std::cout << "Copied [" << name << "] content [" << shortedFilesInBackup[fileIndex] << "] to system." << std::endl;
         }
     }
 
