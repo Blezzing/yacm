@@ -211,14 +211,22 @@ public:
     }
 
     void list() const{
-        printElementName(name);
+        std::cout << "[" << name << "] is a ";
+        switch (kind){
+            case elementKind::file: std::cout << "file."; break;
+            case elementKind::directory: std::cout << "directory."; break;
+            case elementKind::mismatched: std::cout << "mismatch between directory and a regular file. Please fix!"; break;
+            case elementKind::nonexisting: std::cout << "nonexisting element on both system and backup."; break;
+            default: std::cout << "invalid element."; break;
+        }
+        std::cout << std::endl;
     }
 
     void save() const{
         switch(kind){
             case elementKind::file: saveAsFile(); break;
             case elementKind::directory: saveAsDirectory(); break;
-            default: std::cout << "Save did nothing on" << name << "due to both paths not being the same type of file" << std::endl; break;
+            default: std::cout << "Failed [" << name << "] due to both not being either a file or a directory." << std::endl; break;
         }
     }
 
@@ -226,7 +234,7 @@ public:
         switch(kind){
             case elementKind::file: loadAsFile(); break;
             case elementKind::directory: loadAsDirectory(); break;
-            default: std::cout << "Load did nothing on" << name << "due to both paths not being the same type of file" << std::endl; break;
+            default: std::cout << "Failed [" << name << "] due to both not being either a file or a directory." << std::endl; break;
         }
     }  
 };

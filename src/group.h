@@ -24,7 +24,7 @@ public:
     }
 
     void list() const{
-        printGroupName(name);
+        std::cout << "[" << name << "]" << std::endl; 
         for (const auto& element : elements){
             element.list();
         }
@@ -32,7 +32,7 @@ public:
     }
 
     void save() const{
-        std::cout << "Saving elements of group [" << name << "]" << std::endl; 
+        std::cout << "[" << name << "]" << std::endl;
         for (const auto& element : elements){
             element.save();
         }
@@ -40,7 +40,7 @@ public:
     }
 
     void load() const{
-        std::cout << "Loading elements of group [" << name << "]" << std::endl; 
+        std::cout << "[" << name << "]" << std::endl;
         for (const auto& element : elements){
             element.load();
         }
