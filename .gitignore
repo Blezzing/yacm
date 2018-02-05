@@ -30,7 +30,7 @@
 *.exe
 *.out
 *.app
-yacm
+bin
 
 # vscode
 .vscode
