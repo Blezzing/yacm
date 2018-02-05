@@ -46,3 +46,21 @@ bool booleanPromt(const std::string& question){
         std::cout << "Did not understand that response, try again." << std::endl;
     }
 }
+
+//Used whenever multiple choices are present
+int multipleChoicePrompt(const std::string& question, const std::vector<std::string>& options){
+    std::string response;
+    while(true){
+        std::cout << question << std::endl;
+        for (auto i = 0u; i < options.size(); i++){
+            std::cout << "[" << i+1 << "] " << options[i] << std::endl;
+        }
+        std::cin >> response;
+        try{
+            return stoi(response) -1;
+        }
+        catch(...){
+            std::cout << "Did not understand that response, try again." << std::endl;
+        }
+    }
+}
