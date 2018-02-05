@@ -2,6 +2,7 @@
 
 #include <iostream>
 #include <string>
+#include <vector>
 
 //Used whenever the user input was malformed
 void printUsageAndExit(){

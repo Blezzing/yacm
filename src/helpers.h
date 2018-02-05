@@ -78,3 +78,12 @@ bool isFilesIdentical(const fs::path& p1, const fs::path& p2){
         return false;
     }
 }
+
+void createPathToFileIfNeeded(const std::string& filePath){
+    try{
+        fs::create_directories(fs::path(filePath).remove_filename());
+    }
+    catch(fs::filesystem_error e){
+        printErrorAndExit(e.what());
+    }
+}

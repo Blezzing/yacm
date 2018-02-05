@@ -17,21 +17,17 @@ private:
     std::string name;
 
     void saveAsFile() const{
-        try{
-            fs::create_directories(fs::path(backupPath).remove_filename());
-        }
-        catch(fs::filesystem_error e){
-            printErrorAndExit(e.what());
-        }
+        createPathToFileIfNeeded(backupPath);
 
         if(fs::exists(backupPath)){
             if(isFilesIdentical(systemPath, backupPath)){
-                std::cout << "Skipped [" << name << "]; current backup is identical." << std::endl;
+                std::cout << "Skipped [" << name << "], current backup is identical." << std::endl;
                 return;
             }
 
             auto question = "About [" + name + "]: Want to overwrite existing file [" + backupPath.string() + "]?";
             if (!booleanPromt(question)){
+                std::cout << "Skipped [" << name << "], user decision." << std::endl;
                 return;
             }
         }
@@ -68,22 +64,18 @@ private:
 
             if(isInBackupDirectory){
                 if(isFilesIdentical(pathInSystem, pathInBackup)){
-                    std::cout << "Skipped [" << name << "] content [" << shortedFilesInSystem[fileIndex] << "]; current backup is identical." << std::endl;
+                    std::cout << "Skipped [" << name << "] content [" << shortedFilesInSystem[fileIndex] << "], current backup is identical." << std::endl;
                     continue;
                 }
 
                 auto question = "About [" + name + "]: Want to overwrite existing [" + pathInBackup + "]?";
                 if (!booleanPromt(question)){
+                    std::cout << "Skipped [" << name << "] content [" << shortedFilesInSystem[fileIndex] << "], user decision." << std::endl;
                     continue;
                 }
             }
 
-            try{
-                fs::create_directories(fs::path(pathInBackup).remove_filename());
-            }
-            catch(fs::filesystem_error e){
-                printErrorAndExit(e.what());
-            }
+            createPathToFileIfNeeded(pathInBackup);
 
             auto options = fs::copy_options::overwrite_existing; 
             fs::copy(pathInSystem, pathInBackup, options);
@@ -93,21 +85,17 @@ private:
     }
 
     void loadAsFile() const{
-        try{
-            fs::create_directories(fs::path(systemPath).remove_filename());
-        }
-        catch(fs::filesystem_error e){
-            printErrorAndExit(e.what());
-        }
+        createPathToFileIfNeeded(systemPath);
 
         if(fs::exists(backupPath)){
             if(isFilesIdentical(systemPath, backupPath)){
-                std::cout << "Skipped [" << name << "]; current system is identical." << std::endl;
+                std::cout << "Skipped [" << name << "], current system is identical." << std::endl;
                 return;
             }
 
             auto question = "About [" + name + "]: Want to overwrite existing [" + systemPath.string() + "]?";
             if (!booleanPromt(question)){
+                std::cout << "Skipped [" << name << "], user decision." << std::endl;
                 return;
             }
         }
@@ -144,22 +132,18 @@ private:
 
             if(isInSystemDirectory){
                 if(isFilesIdentical(pathInSystem, pathInBackup)){
-                    std::cout << "Skipped [" << name << "] content [" << shortedFilesInBackup[fileIndex] << "]; current system is identical." << std::endl;
+                    std::cout << "Skipped [" << name << "] content [" << shortedFilesInBackup[fileIndex] << "], current system is identical." << std::endl;
                     continue;
                 }
 
                 auto question = "About [" + name + "]: Want to overwrite existing [" + pathInSystem + "]?";
                 if (!booleanPromt(question)){
+                    std::cout << "Skipped [" << name << "] content [" << shortedFilesInSystem[fileIndex] << "], user decision." << std::endl;
                     continue;
                 }
             }
 
-            try{
-                fs::create_directories(fs::path(pathInSystem).remove_filename());
-            }
-            catch(fs::filesystem_error e){
-                printErrorAndExit(e.what());
-            }
+            createPathToFileIfNeeded(pathInSystem);
 
             auto options = fs::copy_options::overwrite_existing; 
             fs::copy(pathInBackup, pathInSystem, options);
