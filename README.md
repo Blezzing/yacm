@@ -15,8 +15,7 @@ Run:
 ```bash
 git clone https://github.com/Blezzing/yacm.git
 cd yacm
-make
-sudo make install
+./install.sh
 ```
 
 ## Compilation
@@ -30,12 +29,25 @@ make
 ```
 
 ## PATH
-Afterwards symlink/move/copy it to a folder included in your `PATH` variable, or add the folder to your `PATH`.
+Afterwards symlink/move/copy it to a folder included in your `PATH` variable, or add the `yacm/bin` folder to your `PATH`.
 
 The makefile can copy the executable to the /usr/bin directory, run:
 ```bash
 sudo make install
 ```
+
+## Configuration
+To use the system a locations.toml is needed in some directory to declare it a backup directory. Additionally a config file can be saved as `~/config/yacm/config` to declare what directory is the backup.
+
+To make it less confusing you can use:
+```bash
+yacm setup
+```
+
+And it will guide you through setting up those files.
+
+## Uninstall
+Aww, but run the included `uninstall.sh` script.
 
 # Usage
 To use `yacm`, you need to have a folder you intend as the root for all your configuration file backups, such as `~/git/dotfiles`. In this folder you have to have a file named locations.toml, which is going to list your files, and relations between the backup and real ones.
