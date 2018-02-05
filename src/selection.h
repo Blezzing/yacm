@@ -17,6 +17,8 @@ private:
 
     //Use the cpptoml library to parse the toml file if it exist.
     std::shared_ptr<cpptoml::table> parseToml(const Arguments& args){
+        std::cout << "Using locations file: " << args.locationsFile << std::endl << std::endl;
+    
         //Check if file exist in current directory
         if(!fs::exists(args.locationsFile)){
             printErrorAndExit("No locations.toml found.");
