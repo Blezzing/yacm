@@ -226,7 +226,9 @@ public:
         switch(kind){
             case elementKind::file: saveAsFile(); break;
             case elementKind::directory: saveAsDirectory(); break;
-            default: std::cout << "Failed [" << name << "] due to both not being either a file or a directory." << std::endl; break;
+            case elementKind::nonexisting: std::cout << "Failed [" << name << "] due to both paths being nonexisting." << std::endl; break;
+            case elementKind::mismatched: std::cout << "Failed [" << name << "] due to both paths not being either a file or a directory." << std::endl; break;
+            default: std::cout << "Failed [" << name << "] is invalid!" << std::endl;
         }
     }
 
@@ -234,7 +236,9 @@ public:
         switch(kind){
             case elementKind::file: loadAsFile(); break;
             case elementKind::directory: loadAsDirectory(); break;
-            default: std::cout << "Failed [" << name << "] due to both not being either a file or a directory." << std::endl; break;
+            case elementKind::nonexisting: std::cout << "Failed [" << name << "] due to both paths being nonexisting." << std::endl; break;
+            case elementKind::mismatched: std::cout << "Failed [" << name << "] due to both paths not being either a file or a directory." << std::endl; break;
+            default: std::cout << "Failed [" << name << "] is invalid!" << std::endl;
         }
     }  
 };
