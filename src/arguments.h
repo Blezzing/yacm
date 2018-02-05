@@ -7,6 +7,7 @@
 
 //Defines the options that decide what the purpose of the program execution is
 enum class ProgramMode{
+    Setup,
     List,
     Save,
     Load,
@@ -38,6 +39,7 @@ public:
             if (arg == "list") programMode = ProgramMode::List;
             else if (arg == "save") programMode = ProgramMode::Save;
             else if (arg == "load") programMode = ProgramMode::Load;
+            else if (arg == "setup") programMode = ProgramMode::Setup;
             else printUsageAndExit();
         }
         if (argc > 2){

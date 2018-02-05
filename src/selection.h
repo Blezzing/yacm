@@ -16,23 +16,25 @@ private:
     std::vector<Group> groups;
 
 public:
-    Selection(const cpptoml::table& completeToml, const Arguments& args){
+    Selection(const Arguments& args){
+        std::shared_ptr<cpptoml::table> toml(parseToml(args));
+    
         switch(args.selectionMode){
             case SelectionMode::All:{
-                for(const auto& groupTableToml : completeToml){
+                for(const auto& groupTableToml : *toml){
                     groups.emplace_back(groupTableToml.first, *(groupTableToml.second->as_table()));
                 }
+                break;
             }
-            break;
             case SelectionMode::Groups:{
                 for (const auto& key : args.keys){
-                    auto groupTableToml = completeToml.get_table(key);
+                    auto groupTableToml = toml->get_table(key);
                     if(groupTableToml){
                         groups.emplace_back(key, *(groupTableToml->as_table()));
                     }
                 }
+                break;
             }
-            break;
         }
     }
 

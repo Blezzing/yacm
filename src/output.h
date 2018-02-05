@@ -65,3 +65,13 @@ int multipleChoicePrompt(const std::string& question, const std::vector<std::str
         }
     }
 }
+
+std::string stringPrompt(const std::string& question){
+    std::string response;
+
+    std::cout << question << ": ";
+
+    std::cin >> response;
+
+    return response;
+}
