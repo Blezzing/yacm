@@ -5,23 +5,36 @@ As i was frustrated manually managing configuration files located multiple place
 
 As there exist other tools to do similar task i named this one YACM, as my naming skills are pretty bad.
 
+YACM's model is to collect all configuration file backups in a single directory tree, and use a `toml` file to define relationships between backup and system used configurations. This fits nicely with the use of git to remotely store those configuration, and an example of such a setup [is my dotfiles](https://github.com/Blezzing/dotfiles), where the only file i have manually touched is `locations.toml`.
+
 # Setup
-Currently the only way to get `yacm` is by compiling it yourself. I have tried to make this simple, and please leave issues if you run into trouble.
+Currently the only way to get `yacm` is by compiling it yourself. I have attempted to make this simple, but please leave issues if you run into trouble.
+
+## TL;DR;
+Run:
+```bash
+git clone https://github.com/Blezzing/yacm.git
+cd yacm
+make
+sudo make install
+```
 
 ## Compilation
 Compilation requires a relatively new version of g++, as it uses the STL filesystem features.
 
+I tested it with gcc 7.2.1 and had no issues.
+
+From the repository directory, run:
 ```bash
-cd wherever_you_cloned_it_to
 make
 ```
 
 ## PATH
 Afterwards symlink/move/copy it to a folder included in your `PATH` variable, or add the folder to your `PATH`.
 
-eg. linking:
+The makefile can copy the executable to the /usr/bin directory, run:
 ```bash
-sudo ln -s ~/git/yacm/yacm /usr/bin/yacm
+sudo make install
 ```
 
 # Usage
@@ -85,7 +98,7 @@ Where `option` must be specified, as it descripes the wanted action, and any num
 |save|Copies files from the system to the backup directory.|
 |load|Copies files from the backup directory to the system.|
 
-### Example commands
+### Example Commands
 
 #### Example 1
 ```bash
@@ -101,21 +114,16 @@ yacm load
 
 Will make a copy of **every single element** described the toml file, from their backup locations to their system locations. 
 
-# Features and wishlist
-"He knows da wey!" -A clever red guy
+# Feature Wishlist
+"He knows da wey!" -A wise red guy.
 
-## Current features:
-* A way to handle multiple configuration files at once with groups
-* A way to handle 
-
-## Future/Wanted features:
-* A way to handle specific configuration files at a time
-* A way to detect and resolve conflicts if multiple elements share a location in system or backup
-* A way to check if some files have been changed in one of the places
+## Future/Wanted Features:
+* A way to handle individual configuration files at a time.
+* A way to detect and resolve conflicts if multiple elements share a location in system or backup.
 * A way to store information about where your backup location is, to avoid excessive use of `cd`
 
-## Wont-get features
+## Won't Get
 * Any kind of remote hosting. Use GitHub or something.
 
-# Thank you
+# Thank You
 Thank you to Skystrife for making the toml library [cpptoml](https://github.com/skystrife/cpptoml). It made this project much easier to start.
